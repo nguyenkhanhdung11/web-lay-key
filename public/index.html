@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NGUYENDUNGX - Premium Key System</title>
+<style>
+  :root {
+    --bg-dark: #05050a;
+    --bg-panel: rgba(15, 15, 25, 0.6);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --neon-cyan: #00e5ff;
+    --neon-purple: #b800ff;
+    --neon-green: #00ff88;
+    --neon-yellow: #ffcc00;
+    --text-main: #e2e8f0;
+    --text-muted: #8b98a5;
+    --glass-blur: blur(20px);
+    --sidebar-width: 280px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+  body {
+    background-color: var(--bg-dark); color: var(--text-main);
+    min-height: 100vh; display: flex; overflow: hidden;
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(184, 0, 255, 0.08), transparent 30%),
+      radial-gradient(circle at 85% 30%, rgba(0, 229, 255, 0.08), transparent 30%);
+  }
+  .sidebar {
+    width: var(--sidebar-width); height: 100vh; background: var(--bg-panel);
+    backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+    border-right: 1px solid var(--border-color); padding: 24px;
+    display: flex; flex-direction: column; gap: 24px; z-index: 10;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 900; letter-spacing: 2px; color: #fff; text-shadow: 0 0 15px var(--neon-cyan); }
+  .brand-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); border-radius: 8px; box-shadow: 0 0 15px rgba(0, 229, 255, 0.5); }
+  .nav-menu { display: flex; flex-direction: column; gap: 8px; }
+  .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 10px; color: var(--text-muted); font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.3s; border: 1px solid transparent; }
+  .nav-item:hover { background: rgba(255,255,255,0.03); color: #fff; }
+  .nav-item.active { background: rgba(0, 229, 255, 0.1); color: var(--neon-cyan); border: 1px solid rgba(0, 229, 255, 0.3); box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.1); }
+  .user-profile { margin-top: auto; background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 12px; }
+  .avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #1f2937, #111827); border: 2px solid var(--neon-cyan); display: flex; justify-content: center; align-items: center; font-weight: bold; color: var(--neon-cyan); }
+  .user-info .name { font-size: 14px; font-weight: 700; color: #fff; }
+  .user-info .hwid { font-size: 11px; color: var(--text-muted); font-family: monospace; }
+  .server-status { background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; font-size: 12px; }
+  .status-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .status-row:last-child { margin-bottom: 0; }
+  .status-bar { width: 100%; height: 4px; background: #1f2937; border-radius: 2px; margin-top: 6px; overflow: hidden; }
+  .status-bar-fill { height: 100%; background: var(--neon-cyan); width: 45%; box-shadow: 0 0 10px var(--neon-cyan); }
+  .main-content { flex: 1; height: 100vh; display: flex; flex-direction: column; overflow-y: auto; }
+  .topbar { height: 80px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); background: rgba(15, 15, 25, 0.4); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 5; }
+  .page-title { font-size: 20px; font-weight: 700; color: #fff; }
+  .topbar-right { display: flex; align-items: center; gap: 24px; }
+  .sys-status { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--neon-green); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite; }
+  .clock { font-family: monospace; font-size: 15px; color: var(--neon-cyan); background: rgba(0, 229, 255, 0.1); padding: 6px 12px; border-radius: 6px; }
+  .content-area { padding: 40px; max-width: 900px; margin: 0 auto; width: 100%; }
+  .intro-text { margin-bottom: 32px; }
+  .intro-text h2 { font-size: 24px; color: #fff; margin-bottom: 8px; }
+  .intro-text p { color: var(--text-muted); font-size: 14px; }
+  .checkpoints { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .cp-card { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px; position: relative; overflow: hidden; transition: all 0.3s; }
+  .cp-card.locked { opacity: 0.5; pointer-events: none; filter: grayscale(1); }
+  .cp-card.done { border-color: rgba(0, 255, 136, 0.3); box-shadow: 0 0 20px rgba(0, 255, 136, 0.1); }
+  .cp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+  .cp-title { font-size: 16px; font-weight: 700; color: #fff; }
+  .cp-badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; background: #1f2937; color: var(--text-muted); }
+  .cp-card.done .cp-badge { background: rgba(0, 255, 136, 0.15); color: var(--neon-green); }
+  .cp-card.running .cp-badge { background: rgba(255, 204, 0, 0.15); color: var(--neon-yellow); }
+  .cp-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
+  .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; }
+  .btn-primary { background: linear-gradient(135deg, var(--neon-purple), #7c00cc); color: #fff; box-shadow: 0 4px 15px rgba(184, 0, 255, 0.3); }
+  .btn-primary:hover { filter: brightness(1.2); transform: translateY(-2px); }
+  .btn:disabled { background: #1f2937; color: #555; box-shadow: none; cursor: not-allowed; transform: none; }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 100; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s; }
+  .modal-overlay.active { opacity: 1; pointer-events: all; }
+  .modal-box { background: #0f1015; border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 16px; width: 90%; max-width: 600px; padding: 32px; text-align: center; box-shadow: 0 0 50px rgba(0, 229, 255, 0.1); transform: scale(0.9); transition: 0.3s; }
+  .modal-overlay.active .modal-box { transform: scale(1); }
+  .modal-title { font-size: 20px; color: #fff; margin-bottom: 8px; font-weight: 700; }
+  .modal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+  .video-mockup { width: 100%; height: 250px; background: #05050a; border: 1px dashed #333; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 24px; position: relative; }
+  .video-mockup span { color: #444; font-size: 14px; font-weight: 600; }
+  .timer-huge { position: absolute; top: 16px; right: 16px; font-size: 32px; font-weight: 900; color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan); font-family: monospace; }
+  .progress-container { width: 100%; height: 8px; background: #1f2937; border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
+  .progress-fill { height: 100%; background: var(--neon-cyan); width: 0%; transition: width 1s linear; box-shadow: 0 0 10px var(--neon-cyan); }
+  .modal-warning { font-size: 12px; color: var(--neon-yellow); margin-top: 16px; font-weight: 600; }
+  .result-section { display: none; text-align: center; animation: fadeIn 0.5s ease; }
+  .result-section.active { display: block; }
+  .result-icon { font-size: 60px; color: var(--neon-green); margin-bottom: 16px; text-shadow: 0 0 20px var(--neon-green); }
+  .result-title { font-size: 28px; color: #fff; margin-bottom: 8px; font-weight: 900; letter-spacing: 1px; }
+  .result-sub { color: var(--text-muted); font-size: 14px; margin-bottom: 32px; }
+  .key-box { background: rgba(0, 255, 136, 0.05); border: 2px solid var(--neon-green); border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 0 30px rgba(0, 255, 136, 0.15); }
+  .key-display { font-family: monospace; font-size: 32px; font-weight: 900; color: #fff; letter-spacing: 4px; text-shadow: 0 0 10px rgba(255,255,255,0.5); user-select: all; }
+  .actions { display: flex; gap: 16px; justify-content: center; }
+  .btn-cyan { background: var(--neon-cyan); color: #000; box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3); }
+  .btn-cyan:hover { filter: brightness(1.1); }
+  .btn-outline { background: transparent; border: 1px solid var(--border-color); color: #fff; }
+  .btn-outline:hover { background: rgba(255,255,255,0.05); }
+  .toast { position: fixed; bottom: 30px; right: 30px; background: #111827; border: 1px solid var(--neon-green); color: #fff; padding: 16px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); transform: translateY(100px); opacity: 0; transition: 0.3s; z-index: 1000; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon"></div> NGUYENDUNGX
+    </div>
+    <nav class="nav-menu">
+      <div class="nav-item"><span>📊</span> Dashboard</div>
+      <div class="nav-item active"><span>🔑</span> Get Key</div>
+      <div class="nav-item"><span>🕒</span> Lịch sử</div>
+      <div class="nav-item"><span>💬</span> Hỗ trợ</div>
+    </nav>
+    <div class="user-profile">
+      <div class="avatar">AD</div>
+      <div class="user-info">
+        <div class="name">Admin</div>
+        <div class="hwid">HWID: A1-B2-C3-D4</div>
+      </div>
+    </div>
+    <div class="server-status">
+      <div class="status-row"><span style="color: var(--text-muted);">Server Load</span><span style="color: #fff;">45%</span></div>
+      <div class="status-bar"><div class="status-bar-fill"></div></div>
+      <div class="status-row" style="margin-top: 12px;"><span style="color: var(--text-muted);">Users Online</span><span style="color: var(--neon-cyan);">1,245</span></div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div class="page-title">Key System</div>
+      <div class="topbar-right">
+        <div class="sys-status"><div class="dot"></div> System Online</div>
+        <div class="clock" id="realClock">00:00:00</div>
+      </div>
+    </header>
+
+    <div class="content-area">
+      <div id="checkpointArea">
+        <div class="intro-text">
+          <h2>Xác Minh Lấy Key</h2>
+          <p>Vui lòng hoàn thành 2 bước xem quảng cáo để hệ thống cấp phát License Key.</p>
+        </div>
+        <div class="checkpoints">
+          <div class="cp-card" id="cp1">
+            <div class="cp-header">
+              <div class="cp-title">Bước 1: Xem Quảng Cáo</div>
+              <div class="cp-badge" id="badge1">Chưa xong</div>
+            </div>
+            <div class="cp-desc">Yêu cầu xem hết 60 giây quảng cáo. Không tắt popup giữa chừng.</div>
+            <button class="btn btn-primary" id="btnCp1" onclick="startAd(1)">Bắt Đầu</button>
+          </div>
+          <div class="cp-card locked" id="cp2">
+            <div class="cp-header">
+              <div class="cp-title">Bước 2: Xem Quảng Cáo</div>
+              <div class="cp-badge" id="badge2">Đang khóa</div>
+            </div>
+            <div class="cp-desc">Yêu cầu xem hết 60 giây quảng cáo. Không tắt popup giữa chừng.</div>
+            <button class="btn btn-primary" id="btnCp2" onclick="startAd(2)" disabled>Bắt Đầu</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-section" id="resultArea">
+        <div class="result-icon">✔</div>
+        <h1 class="result-title">XÁC MINH THÀNH CÔNG</h1>
+        <p class="result-sub">Hệ thống đã cấp phát License Key cho thiết bị của bạn.</p>
+        <div class="key-box">
+          <div class="key-display" id="finalKey">XXXX-XXXX-XXXX-XXXX</div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-cyan" onclick="copyKey()">Copy Key</button>
+          <button class="btn btn-outline" onclick="downloadTool()">Download Tool</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="adModal">
+    <div class="modal-box">
+      <h2 class="modal-title">Đang Xem Quảng Cáo</h2>
+      <p class="modal-sub">Vui lòng đợi hết thời gian để nhận Key. Không đóng cửa sổ này!</p>
+      <div class="video-mockup">
+        <span>[ VIDEO QUẢNG CÁO GIẢ LẬP ]</span>
+        <div class="timer-huge" id="modalTimer">60</div>
+      </div>
+      <div class="progress-container"><div class="progress-fill" id="modalProgress"></div></div>
+      <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted);">
+        <span>Tiến trình</span><span id="progressPercent">0%</span>
+      </div>
+      <div class="modal-warning">⚠ Vui lòng không chuyển tab hoặc tắt trình duyệt!</div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <span style="color: var(--neon-green); font-size: 18px;">✔</span>
+    <span id="toastMsg">Đã copy!</span>
+  </div>
+
+  <script>
+    setInterval(() => {
+      const now = new Date();
+      document.getElementById('realClock').textContent = now.toLocaleTimeString('en-US', { hour12: false });
+    }, 1000);
+
+    let adInterval = null;
+    const AD_DURATION = 60;
+
+    function startAd(step) {
+      const modal = document.getElementById('adModal');
+      const timerEl = document.getElementById('modalTimer');
+      const progressEl = document.getElementById('modalProgress');
+      const percentEl = document.getElementById('progressPercent');
+      modal.classList.add('active');
+      
+      const cpCard = document.getElementById('cp' + step);
+      const cpBadge = document.getElementById('badge' + step);
+      cpCard.classList.add('running');
+      cpBadge.textContent = "Đang chạy...";
+      cpBadge.style.color = "var(--neon-yellow)";
+      cpBadge.style.background = "rgba(255, 204, 0, 0.15)";
+
+      let timeLeft = AD_DURATION;
+      timerEl.textContent = timeLeft;
+      progressEl.style.width = '0%';
+      percentEl.textContent = '0%';
+
+      adInterval = setInterval(() => {
+        timeLeft--;
+        timerEl.textContent = timeLeft;
+        let percent = ((AD_DURATION - timeLeft) / AD_DURATION) * 100;
+        progressEl.style.width = percent + '%';
+        percentEl.textContent = Math.floor(percent) + '%';
+
+        if (timeLeft <= 0) {
+          clearInterval(adInterval);
+          finishAd(step);
+        }
+      }, 1000);
+    }
+
+    function finishAd(step) {
+      document.getElementById('adModal').classList.remove('active');
+      const cpCard = document.getElementById('cp' + step);
+      const cpBadge = document.getElementById('badge' + step);
+      cpCard.classList.remove('running');
+      cpCard.classList.add('done');
+      cpBadge.textContent = "Đã xong";
+      cpBadge.style.color = "var(--neon-green)";
+      cpBadge.style.background = "rgba(0, 255, 136, 0.15)";
+
+      if (step === 1) {
+        const cp2 = document.getElementById('cp2');
+        const btn2 = document.getElementById('btnCp2');
+        const badge2 = document.getElementById('badge2');
+        cp2.classList.remove('locked');
+        btn2.disabled = false;
+        badge2.textContent = "Sẵn sàng";
+        badge2.style.background = "#1f2937";
+        badge2.style.color = "var(--text-muted)";
+        document.getElementById('btnCp1').disabled = true;
+        document.getElementById('btnCp1').textContent = "Hoàn thành";
+      } else if (step === 2) {
+        document.getElementById('checkpointArea').style.display = 'none';
+        document.getElementById('resultArea').classList.add('active');
+        fetchKeyFromServer(); // GỌI API LẤY KEY THẬT
+      }
+    }
+
+    // Gọi API từ Node.js Server
+    function fetchKeyFromServer() {
+      document.getElementById('finalKey').textContent = "Đang lấy...";
+      fetch('/api/get-key')
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            document.getElementById('finalKey').textContent = data.key;
+          } else {
+            document.getElementById('finalKey').textContent = "LỖI: " + data.error;
+          }
+        })
+        .catch(err => {
+          document.getElementById('finalKey').textContent = "LỖI KẾT NỐI SERVER";
+        });
+    }
+
+    function copyKey() {
+      const keyText = document.getElementById('finalKey').textContent;
+      navigator.clipboard.writeText(keyText).then(() => {
+        showToast("Đã sao chép License Key!");
+      }).catch(err => {
+        showToast("Lỗi khi sao chép!");
+      });
+    }
+
+    function downloadTool() {
+      showToast("Đang chuẩn bị tải xuống...");
+      setTimeout(() => { showToast("Tải xuống hoàn tất!"); }, 2000);
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => { toast.classList.remove('show'); }, 3000);
+    }
+  </script>
+</body>
+</html>
