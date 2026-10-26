@@ -214,7 +214,8 @@
     // ==========================================
     // CẤU HÌNH LINK TẢI APP (THAY LINK MEDIAFIRE CỦA BOSS VÀO ĐÂY)
     // ==========================================
-    const DOWNLOAD_URL = 'https://www.mediafire.com/file/.../GamePro.exe/file'; 
+    const DOWNLOAD_URL = 'https://www.mediafire.com/file/abcxyz/GamePro.exe/file'; 
+    // Thay link trên bằng link MediaFire thật của boss (nhớ giữ nguyên dấu nháy đơn)
 
     // Đồng hồ thời gian thực
     setInterval(() => {
@@ -313,9 +314,16 @@
     }
 
     function downloadTool() {
+      // Cơ chế tự động sửa lỗi link nếu boss dán thiếu
+      let finalUrl = DOWNLOAD_URL.trim();
+      if (finalUrl.includes('mediafire.com/file/') && !finalUrl.endsWith('/file')) {
+          // Cảnh báo nếu link MediaFire bị thiếu đuôi /file
+          console.warn("Link MediaFire có thể bị thiếu đuôi /file!");
+      }
+      
       showToast("Đang chuyển hướng đến trang tải App...");
       setTimeout(() => {
-        window.open(DOWNLOAD_URL, '_blank'); 
+        window.open(finalUrl, '_blank'); 
       }, 1000);
     }
 
