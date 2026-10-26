@@ -18,19 +18,33 @@
     --glass-blur: blur(20px);
     --sidebar-width: 280px;
   }
+
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
   body {
-    background-color: var(--bg-dark); color: var(--text-main);
-    min-height: 100vh; display: flex; overflow: hidden;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    overflow: hidden;
     background-image: 
       radial-gradient(circle at 15% 50%, rgba(184, 0, 255, 0.08), transparent 30%),
       radial-gradient(circle at 85% 30%, rgba(0, 229, 255, 0.08), transparent 30%);
   }
+
+  /* SIDEBAR */
   .sidebar {
-    width: var(--sidebar-width); height: 100vh; background: var(--bg-panel);
-    backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
-    border-right: 1px solid var(--border-color); padding: 24px;
-    display: flex; flex-direction: column; gap: 24px; z-index: 10;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--bg-panel);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-right: 1px solid var(--border-color);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    z-index: 10;
   }
   .brand { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 900; letter-spacing: 2px; color: #fff; text-shadow: 0 0 15px var(--neon-cyan); }
   .brand-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); border-radius: 8px; box-shadow: 0 0 15px rgba(0, 229, 255, 0.5); }
@@ -47,6 +61,8 @@
   .status-row:last-child { margin-bottom: 0; }
   .status-bar { width: 100%; height: 4px; background: #1f2937; border-radius: 2px; margin-top: 6px; overflow: hidden; }
   .status-bar-fill { height: 100%; background: var(--neon-cyan); width: 45%; box-shadow: 0 0 10px var(--neon-cyan); }
+
+  /* MAIN CONTENT */
   .main-content { flex: 1; height: 100vh; display: flex; flex-direction: column; overflow-y: auto; }
   .topbar { height: 80px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); background: rgba(15, 15, 25, 0.4); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 5; }
   .page-title { font-size: 20px; font-weight: 700; color: #fff; }
@@ -72,6 +88,8 @@
   .btn-primary { background: linear-gradient(135deg, var(--neon-purple), #7c00cc); color: #fff; box-shadow: 0 4px 15px rgba(184, 0, 255, 0.3); }
   .btn-primary:hover { filter: brightness(1.2); transform: translateY(-2px); }
   .btn:disabled { background: #1f2937; color: #555; box-shadow: none; cursor: not-allowed; transform: none; }
+
+  /* MODAL */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 100; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s; }
   .modal-overlay.active { opacity: 1; pointer-events: all; }
   .modal-box { background: #0f1015; border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 16px; width: 90%; max-width: 600px; padding: 32px; text-align: center; box-shadow: 0 0 50px rgba(0, 229, 255, 0.1); transform: scale(0.9); transition: 0.3s; }
@@ -84,6 +102,8 @@
   .progress-container { width: 100%; height: 8px; background: #1f2937; border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
   .progress-fill { height: 100%; background: var(--neon-cyan); width: 0%; transition: width 1s linear; box-shadow: 0 0 10px var(--neon-cyan); }
   .modal-warning { font-size: 12px; color: var(--neon-yellow); margin-top: 16px; font-weight: 600; }
+
+  /* RESULT */
   .result-section { display: none; text-align: center; animation: fadeIn 0.5s ease; }
   .result-section.active { display: block; }
   .result-icon { font-size: 60px; color: var(--neon-green); margin-bottom: 16px; text-shadow: 0 0 20px var(--neon-green); }
@@ -96,6 +116,8 @@
   .btn-cyan:hover { filter: brightness(1.1); }
   .btn-outline { background: transparent; border: 1px solid var(--border-color); color: #fff; }
   .btn-outline:hover { background: rgba(255,255,255,0.05); }
+
+  /* TOAST */
   .toast { position: fixed; bottom: 30px; right: 30px; background: #111827; border: 1px solid var(--neon-green); color: #fff; padding: 16px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); transform: translateY(100px); opacity: 0; transition: 0.3s; z-index: 1000; }
   .toast.show { transform: translateY(0); opacity: 1; }
   @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
@@ -103,10 +125,9 @@
 </style>
 </head>
 <body>
+
   <aside class="sidebar">
-    <div class="brand">
-      <div class="brand-icon"></div> NGUYENDUNGX
-    </div>
+    <div class="brand"><div class="brand-icon"></div> NGUYENDUNGX</div>
     <nav class="nav-menu">
       <div class="nav-item"><span>📊</span> Dashboard</div>
       <div class="nav-item active"><span>🔑</span> Get Key</div>
@@ -115,10 +136,7 @@
     </nav>
     <div class="user-profile">
       <div class="avatar">AD</div>
-      <div class="user-info">
-        <div class="name">Admin</div>
-        <div class="hwid">HWID: A1-B2-C3-D4</div>
-      </div>
+      <div class="user-info"><div class="name">Admin</div><div class="hwid">HWID: A1-B2-C3-D4</div></div>
     </div>
     <div class="server-status">
       <div class="status-row"><span style="color: var(--text-muted);">Server Load</span><span style="color: #fff;">45%</span></div>
@@ -144,18 +162,12 @@
         </div>
         <div class="checkpoints">
           <div class="cp-card" id="cp1">
-            <div class="cp-header">
-              <div class="cp-title">Bước 1: Xem Quảng Cáo</div>
-              <div class="cp-badge" id="badge1">Chưa xong</div>
-            </div>
+            <div class="cp-header"><div class="cp-title">Bước 1: Xem Quảng Cáo</div><div class="cp-badge" id="badge1">Chưa xong</div></div>
             <div class="cp-desc">Yêu cầu xem hết 60 giây quảng cáo. Không tắt popup giữa chừng.</div>
             <button class="btn btn-primary" id="btnCp1" onclick="startAd(1)">Bắt Đầu</button>
           </div>
           <div class="cp-card locked" id="cp2">
-            <div class="cp-header">
-              <div class="cp-title">Bước 2: Xem Quảng Cáo</div>
-              <div class="cp-badge" id="badge2">Đang khóa</div>
-            </div>
+            <div class="cp-header"><div class="cp-title">Bước 2: Xem Quảng Cáo</div><div class="cp-badge" id="badge2">Đang khóa</div></div>
             <div class="cp-desc">Yêu cầu xem hết 60 giây quảng cáo. Không tắt popup giữa chừng.</div>
             <button class="btn btn-primary" id="btnCp2" onclick="startAd(2)" disabled>Bắt Đầu</button>
           </div>
@@ -199,6 +211,12 @@
   </div>
 
   <script>
+    // ==========================================
+    // CẤU HÌNH LINK TẢI APP (THAY LINK MEDIAFIRE CỦA BOSS VÀO ĐÂY)
+    // ==========================================
+    const DOWNLOAD_URL = 'https://www.mediafire.com/file/.../GamePro.exe/file'; 
+
+    // Đồng hồ thời gian thực
     setInterval(() => {
       const now = new Date();
       document.getElementById('realClock').textContent = now.toLocaleTimeString('en-US', { hour12: false });
@@ -264,11 +282,11 @@
       } else if (step === 2) {
         document.getElementById('checkpointArea').style.display = 'none';
         document.getElementById('resultArea').classList.add('active');
-        fetchKeyFromServer(); // GỌI API LẤY KEY THẬT
+        fetchKeyFromServer();
       }
     }
 
-    // Gọi API từ Node.js Server
+    // Gọi API từ Server Node.js
     function fetchKeyFromServer() {
       document.getElementById('finalKey').textContent = "Đang lấy...";
       fetch('/api/get-key')
@@ -295,8 +313,10 @@
     }
 
     function downloadTool() {
-      showToast("Đang chuẩn bị tải xuống...");
-      setTimeout(() => { showToast("Tải xuống hoàn tất!"); }, 2000);
+      showToast("Đang chuyển hướng đến trang tải App...");
+      setTimeout(() => {
+        window.open(DOWNLOAD_URL, '_blank'); 
+      }, 1000);
     }
 
     function showToast(message) {
